@@ -267,3 +267,5 @@ a { color: inherit; }
 
 footer.site { text-align: center; color: var(--muted); font-size: 14px; padding: 34px 16px 44px; }
 footer.site .fbrand { font-family: var(--serif); font-weight: 700; color: var(--ink); font-size: 17px; }
+.footer-links { display: flex; gap: 12px; justify-content: center; align-items: center; margin: 10px 0; flex-wrap: wrap; }
+.footer-links a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; font-size: 14px; }

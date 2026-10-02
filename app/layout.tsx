@@ -74,7 +74,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <footer className="site">
           <div className="fbrand">Fix Messy</div>
-          <div>Space management solution · {new Date().getFullYear()}</div>
+          <nav className="footer-links" aria-label="Legal">
+            <a href="/terms">Terms of Service</a>
+            <span aria-hidden="true">·</span>
+            <a href="/privacy">Privacy Policy</a>
+            <span aria-hidden="true">·</span>
+            <a href="/copyright">Copyright</a>
+          </nav>
+          <div>© {new Date().getFullYear()} Fix Messy. All rights reserved.</div>
         </footer>
       </body>
     </html>
