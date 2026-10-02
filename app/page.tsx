@@ -47,19 +47,74 @@ function fileToResizedDataUrl(file: File): Promise<{ dataUrl: string; blob: Blob
   });
 }
 
+function ImageIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="3" />
+      <circle cx="9" cy="9" r="1.8" />
+      <path d="M21 15l-5-5-9 9" />
+    </svg>
+  );
+}
+function LibraryIcon() {
+  return (
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="6" width="14" height="12" rx="2.5" />
+      <path d="M17 10l4-2v9l-4-2" />
+      <circle cx="8.5" cy="10.5" r="1.3" fill="currentColor" stroke="none" />
+      <path d="M5.5 16.5l4-4 3 3 2.5-2.5 2 2" />
+    </svg>
+  );
+}
+function CameraIcon() {
+  return (
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 8h3l2-2.5h6L17 8h3a1.5 1.5 0 0 1 1.5 1.5V18a1.5 1.5 0 0 1-1.5 1.5H4A1.5 1.5 0 0 1 2.5 18V9.5A1.5 1.5 0 0 1 4 8z" />
+      <circle cx="12" cy="13.5" r="3.5" />
+    </svg>
+  );
+}
+function FolderIcon() {
+  return (
+    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 7a2 2 0 0 1 2-2h4l2 2.5h8a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+    </svg>
+  );
+}
+function GridIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+      <rect x="3.5" y="3.5" width="7" height="7" rx="1.5" />
+      <rect x="13.5" y="3.5" width="7" height="7" rx="1.5" />
+      <rect x="3.5" y="13.5" width="7" height="7" rx="1.5" />
+      <rect x="13.5" y="13.5" width="7" height="7" rx="1.5" />
+    </svg>
+  );
+}
+function ArrowIcon() {
+  return (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 12h15M13 6l6 6-6 6" />
+    </svg>
+  );
+}
+
 export default function HomePage() {
   const router = useRouter();
   const libraryRef = useRef<HTMLInputElement>(null);
   const cameraRef = useRef<HTMLInputElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
   const [photo, setPhoto] = useState<{ dataUrl: string; blob: Blob } | null>(null);
   const [photoName, setPhotoName] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [reading, setReading] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
   const [consentOpen, setConsentOpen] = useState<null | AnalyzeMode>(null);
   const [analyzing, setAnalyzing] = useState(false);
 
   async function handleFile(file: File | undefined | null) {
     setError(null);
+    setSheetOpen(false);
     if (!file) return; // user cancelled the picker — not an error
     if (!file.type.startsWith("image/")) {
       setError("That file is not an image. Please choose a photo file.");
@@ -82,8 +137,7 @@ export default function HomePage() {
     setPhoto(null);
     setPhotoName("");
     setError(null);
-    if (libraryRef.current) libraryRef.current.value = "";
-    if (cameraRef.current) cameraRef.current.value = "";
+    for (const r of [libraryRef, cameraRef, fileRef]) if (r.current) r.current.value = "";
   }
 
   async function runAnalysis(mode: AnalyzeMode, share: boolean) {
@@ -115,51 +169,34 @@ export default function HomePage() {
 
   return (
     <main>
-      <section className="hero">
-        <h1>FixMessy</h1>
-        <p className="tagline">Space management solution</p>
-      </section>
+      <p className="kicker">ROOM, THEN KIT</p>
+      <h1 className="hero-title">Easily transform your room or any messy space into a more organized one.</h1>
+      <p className="hero-sub">No worries, we also show you the organizers to buy.</p>
+
+      <div className="hero-pair" aria-hidden="true">
+        <div className="hero-card">
+          <img src="/hero-before.jpg" alt="" loading="eager" fetchPriority="high" />
+        </div>
+        <div className="hero-arrow">
+          <ArrowIcon />
+        </div>
+        <div className="hero-card">
+          <img src="/hero-after.jpg" alt="" loading="eager" fetchPriority="high" />
+        </div>
+      </div>
 
       {error && <div className="notice notice-error" role="alert">{error}</div>}
 
       {!photo ? (
-        <div className="card">
-          <div
-            className="upload-prompt"
-            role="button"
-            tabIndex={0}
-            onClick={() => libraryRef.current?.click()}
-            onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") libraryRef.current?.click(); }}
-          >
-            {reading ? "Reading your photo…" : PLACEHOLDER_PROMPT}
-          </div>
-          <div className="preview-actions" style={{ marginTop: 14 }}>
-            <button className="btn btn-secondary" type="button" onClick={() => libraryRef.current?.click()} disabled={reading}>
-              Choose from Library
-            </button>
-            <button className="btn btn-secondary" type="button" onClick={() => cameraRef.current?.click()} disabled={reading}>
-              Take a Photo
-            </button>
-          </div>
-          <input
-            ref={libraryRef}
-            type="file"
-            accept="image/*"
-            hidden
-            onChange={(e) => handleFile(e.target.files?.[0])}
-          />
-          <input
-            ref={cameraRef}
-            type="file"
-            accept="image/*"
-            capture="environment"
-            hidden
-            onChange={(e) => handleFile(e.target.files?.[0])}
-          />
-        </div>
+        <>
+          <button className="pill pill-dark" type="button" onClick={() => setSheetOpen(true)} disabled={reading}>
+            <ImageIcon /> {reading ? "Reading your photo…" : "Add a room photo"}
+          </button>
+          <p className="helper-text">{PLACEHOLDER_PROMPT}</p>
+        </>
       ) : (
-        <div className="card">
-          <div className="preview-wrap">
+        <>
+          <div className="preview-card">
             <img
               src={photo.dataUrl}
               alt="Your uploaded space"
@@ -168,24 +205,14 @@ export default function HomePage() {
                 clearPhoto();
               }}
             />
-            <div className="preview-actions">
-              <button className="btn-ghost btn" type="button" onClick={clearPhoto}>Remove</button>
-              <button className="btn-ghost btn" type="button" onClick={() => libraryRef.current?.click()}>
-                Choose Another Image
-              </button>
+            <div className="preview-meta">
+              <button className="link-btn" type="button" onClick={clearPhoto}>Remove</button>
+              <button className="link-btn" type="button" onClick={() => setSheetOpen(true)}>Choose another</button>
             </div>
-            <input
-              ref={libraryRef}
-              type="file"
-              accept="image/*"
-              hidden
-              onChange={(e) => handleFile(e.target.files?.[0])}
-            />
           </div>
-
-          <div className="mode-buttons">
+          <div className="pill-row">
             <button
-              className="btn btn-block"
+              className="pill pill-dark"
               type="button"
               disabled={analyzing}
               onClick={() => setConsentOpen("reorganize")}
@@ -193,7 +220,7 @@ export default function HomePage() {
               {analyzing ? <span className="spinner" /> : null} Reorganize This Space
             </button>
             <button
-              className="btn btn-secondary btn-block"
+              className="pill pill-light"
               type="button"
               disabled={analyzing}
               onClick={() => setConsentOpen("decor")}
@@ -206,17 +233,40 @@ export default function HomePage() {
               Analyzing your photo… this can take up to a minute.
             </div>
           )}
+          <div style={{ textAlign: "center", marginTop: 8 }}>
+            <button className="text-btn" type="button" onClick={clearPhoto}>Cancel</button>
+          </div>
+        </>
+      )}
+
+      {!photo && (
+        <div className="pill-row">
+          <a className="pill pill-light" href="/gallery">
+            <GridIcon /> View gallery
+          </a>
         </div>
       )}
 
-      <div className="card">
-        <h3>How it works</h3>
-        <p style={{ color: "var(--muted)", fontSize: 15, lineHeight: 1.6, margin: 0 }}>
-          Snap a messy space. FixMessy shows you a tidied-up version, walks you through
-          exactly what to do, and lists the organizing products you need — or suggests a
-          fresh decor style instead.
-        </p>
-      </div>
+      <input ref={libraryRef} type="file" accept="image/*" hidden onChange={(e) => handleFile(e.target.files?.[0])} />
+      <input ref={cameraRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => handleFile(e.target.files?.[0])} />
+      <input ref={fileRef} type="file" accept="image/*" hidden onChange={(e) => handleFile(e.target.files?.[0])} />
+
+      {sheetOpen && (
+        <div className="sheet-backdrop" onClick={() => setSheetOpen(false)} role="dialog" aria-modal="true" aria-label="Choose photo source">
+          <div className="sheet" onClick={(e) => e.stopPropagation()}>
+            <div className="sheet-grip" />
+            <button className="sheet-row" type="button" onClick={() => libraryRef.current?.click()}>
+              <LibraryIcon /> Photo Library
+            </button>
+            <button className="sheet-row" type="button" onClick={() => cameraRef.current?.click()}>
+              <CameraIcon /> Take Photo
+            </button>
+            <button className="sheet-row" type="button" onClick={() => fileRef.current?.click()}>
+              <FolderIcon /> Choose File
+            </button>
+          </div>
+        </div>
+      )}
 
       {consentOpen && (
         <div className="modal-backdrop" role="dialog" aria-modal="true" aria-label="Photo gallery consent">
@@ -224,10 +274,10 @@ export default function HomePage() {
             <h2>One quick question</h2>
             <p>{CONSENT_TEXT}</p>
             <div className="modal-actions">
-              <button className="btn btn-block" type="button" onClick={() => runAnalysis(consentOpen, true)}>
+              <button className="pill pill-dark" type="button" onClick={() => runAnalysis(consentOpen, true)}>
                 Yes, Share
               </button>
-              <button className="btn btn-secondary btn-block" type="button" onClick={() => runAnalysis(consentOpen, false)}>
+              <button className="pill pill-light" type="button" onClick={() => runAnalysis(consentOpen, false)}>
                 No Thanks
               </button>
             </div>

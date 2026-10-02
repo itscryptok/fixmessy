@@ -164,7 +164,7 @@ export default function AddyPage() {
     return (
       <main>
         <div className="card" style={{ maxWidth: 420, margin: "40px auto" }}>
-          <h2 style={{ marginTop: 0 }}>Admin Access</h2>
+          <h2 className="page-title" style={{ marginTop: 0, fontSize: 30 }}>Admin Access</h2>
           {setupNeeded ? (
             <>
               <p style={{ color: "var(--muted)", fontSize: 15 }}>
@@ -182,7 +182,7 @@ export default function AddyPage() {
                     onChange={(e) => setConfirm(e.target.value)} autoComplete="new-password" required />
                 </div>
                 {error && <div className="notice notice-error">{error}</div>}
-                <button className="btn btn-block" type="submit" disabled={busy}>
+                <button className="pill pill-dark" type="submit" disabled={busy}>
                   {busy ? "Saving…" : "Set Password"}
                 </button>
               </form>
@@ -197,7 +197,7 @@ export default function AddyPage() {
                     onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" required />
                 </div>
                 {error && <div className="notice notice-error">{error}</div>}
-                <button className="btn btn-block" type="submit" disabled={busy}>
+                <button className="pill pill-dark" type="submit" disabled={busy}>
                   {busy ? "Signing in…" : "Sign In"}
                 </button>
               </form>
@@ -211,8 +211,8 @@ export default function AddyPage() {
   return (
     <main>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <h2 style={{ margin: "6px 0" }}>Admin Dashboard</h2>
-        <button className="btn-ghost btn" type="button" onClick={handleLogout}>Sign Out</button>
+        <h1 className="page-title" style={{ margin: "6px 0" }}>Admin Dashboard</h1>
+        <button className="btn-sm btn-sm-light" type="button" onClick={handleLogout}>Sign Out</button>
       </div>
 
       {error && <div className="notice notice-error">{error}</div>}
@@ -232,7 +232,7 @@ export default function AddyPage() {
             onChange={(e) => setDefaultUrl(e.target.value)}
           />
         </div>
-        <button className="btn btn-secondary" type="button" onClick={saveDefaultUrl}>
+        <button className="btn-sm" type="button" onClick={saveDefaultUrl}>
           Save Default URL
         </button>
       </div>
@@ -242,18 +242,16 @@ export default function AddyPage() {
         <div className="toolbar">
           <span style={{ fontSize: 14, color: "var(--muted)" }}>Sort by:</span>
           <button
-            className={`btn-ghost btn ${sort === "popularity" ? "" : ""}`}
+            className={`chip ${sort === "popularity" ? "active" : ""}`}
             type="button"
             onClick={() => { setSort("popularity"); loadData("popularity"); }}
-            style={sort === "popularity" ? { borderColor: "var(--teal)", color: "var(--teal-dark)", fontWeight: 700 } : {}}
           >
             Popularity
           </button>
           <button
-            className="btn-ghost btn"
+            className={`chip ${sort === "name" ? "active" : ""}`}
             type="button"
             onClick={() => { setSort("name"); loadData("name"); }}
-            style={sort === "name" ? { borderColor: "var(--teal)", color: "var(--teal-dark)", fontWeight: 700 } : {}}
           >
             Name
           </button>
@@ -277,8 +275,7 @@ export default function AddyPage() {
               value={draftUrls[p.id] ?? ""}
               onChange={(e) => setDraftUrls((d) => ({ ...d, [p.id]: e.target.value }))}
             />
-            <button className="btn btn-secondary" type="button" onClick={() => saveProductUrl(p.id)}
-              style={{ minHeight: 44, padding: "10px 16px", fontSize: 14 }}>
+            <button className="btn-sm" type="button" onClick={() => saveProductUrl(p.id)}>
               Save
             </button>
           </div>

@@ -37,7 +37,7 @@ export default function ResultsPage() {
 
   async function shareApp() {
     const url = window.location.origin;
-    const data = { title: "FixMessy", text: "FixMessy — Space management solution", url };
+    const data = { title: "Fix Messy", text: "Fix Messy — Space management solution", url };
     try {
       if (navigator.share) {
         await navigator.share(data);
@@ -61,7 +61,7 @@ export default function ResultsPage() {
             Your analysis result is no longer available (it lives only in this browser tab).
             Start a fresh analysis below.
           </p>
-          <Link className="btn btn-block" href="/">Analyze a Photo</Link>
+          <Link className="pill pill-dark" href="/">Analyze a Photo</Link>
         </div>
       </main>
     );
@@ -79,12 +79,12 @@ export default function ResultsPage() {
 
   return (
     <main>
-      <span className={`badge ${isReorg ? "badge-reorganize" : "badge-decor"}`}>
+      <span className="badge">
         {isReorg ? "Reorganized" : "Decor suggestion"}
       </span>
-      <h2 style={{ margin: "0 0 4px" }}>
+      <h1 className="page-title">
         {isReorg ? "Your reorganized space" : "Your new decor style"}
-      </h2>
+      </h1>
       {result.shared && (
         <div className="notice notice-info">Thanks — your before/after pair was added to the Photo Gallery.</div>
       )}
@@ -129,13 +129,13 @@ export default function ResultsPage() {
                 <div className="meta">{money(item.price)} × {item.quantity} = {money(item.price * item.quantity)}</div>
               </div>
               {item.url ? (
-                <a className="btn btn-secondary buy" href={item.url} target="_blank" rel="noopener noreferrer" style={{ minHeight: 44, padding: "10px 16px", fontSize: 14 }}>
+                <a className="btn-sm buy" href={item.url} target="_blank" rel="noopener noreferrer">
                   Buy now
                 </a>
               ) : null}
             </div>
           ))}
-          <div style={{ textAlign: "right", fontWeight: 700, marginTop: 10 }}>
+          <div className="shop-total">
             Estimated total: {money(total)}
           </div>
         </div>
@@ -145,14 +145,14 @@ export default function ResultsPage() {
 
       <div className="result-actions">
         {result.afterImage && (
-          <button className="btn btn-secondary" type="button" onClick={downloadImage}>
+          <button className="pill pill-light" type="button" onClick={downloadImage}>
             Save Image
           </button>
         )}
-        <button className="btn btn-secondary" type="button" onClick={shareApp}>
-          Share FixMessy
+        <button className="pill pill-light" type="button" onClick={shareApp}>
+          Share Fix Messy
         </button>
-        <Link className="btn" href="/" style={{ gridColumn: "1 / -1" }}>
+        <Link className="pill pill-dark" href="/">
           Analyze Another Photo
         </Link>
       </div>

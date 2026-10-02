@@ -69,15 +69,20 @@ export default function GalleryPage() {
 
   return (
     <main>
-      <h2 style={{ margin: "6px 0 2px" }}>Photo Gallery</h2>
-      <p style={{ color: "var(--muted)", marginTop: 0, fontSize: 15 }}>
-        Before-and-after transformations shared by FixMessy users.
-      </p>
+      <div className="gallery-head">
+        <a className="back-btn" href="/" aria-label="Back to home">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 12H5M11 18l-6-6 6-6" />
+          </svg>
+        </a>
+        <h1>Gallery</h1>
+      </div>
+      <p className="gallery-sub">Before and after from rooms we were asked to keep. Tap any photo for a slideshow.</p>
 
       {error && (
         <div className="card">
           <div className="notice notice-error" role="alert">{error}</div>
-          <button className="btn btn-block" type="button" onClick={() => window.location.reload()}>
+          <button className="pill pill-dark" type="button" onClick={() => window.location.reload()}>
             Try Again
           </button>
         </div>
@@ -120,14 +125,12 @@ export default function GalleryPage() {
                 {p.hasAfter ? (
                   <img src={imgSrc(p.id, "after")} alt="After" loading="lazy" />
                 ) : (
-                  <div style={{ background: "var(--teal-soft)" }} />
+                  <div style={{ background: "rgba(33,28,21,0.05)", borderRadius: 22 }} />
                 )}
               </div>
               <div className="cap">
-                <span className={`badge ${p.mode === "reorganize" ? "badge-reorganize" : "badge-decor"}`} style={{ margin: 0 }}>
-                  {p.mode === "reorganize" ? "Reorganized" : "Decor"}
-                </span>
-                <span>{new Date(p.createdAt).toLocaleDateString()}</span>
+                <span>BEFORE</span>
+                {p.hasAfter ? <span>AFTER</span> : <span />}
               </div>
             </div>
           ))}

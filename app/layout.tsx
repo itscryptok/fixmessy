@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
-const SITE_NAME = "FixMessy";
+const SITE_NAME = "Fix Messy";
 const TAGLINE = "Space management solution";
 const DESCRIPTION =
-  "FixMessy — space management solution. Upload a photo of a messy room, car, or desk and get an AI-reorganized image, a practical step-by-step guide, and a shopping list of organizing products. Or get a decor style suggestion.";
+  "Fix Messy — space management solution. Easily transform your room or any messy space into a more organized one. Upload a photo and get an AI-reorganized image, a practical step-by-step guide, and the organizers to buy.";
 
 export const metadata: Metadata = {
   title: `${SITE_NAME} — ${TAGLINE}`,
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: `${SITE_NAME} — ${TAGLINE}`,
     description: DESCRIPTION,
     type: "website",
-    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "FixMessy — Space management solution" }],
+    images: [{ url: "/og-image.png", width: 1200, height: 630, alt: "Fix Messy — Space management solution" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -30,8 +30,19 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0d7d74",
+  themeColor: "#f5f0e4",
 };
+
+function GridIcon() {
+  return (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+      <rect x="3.5" y="3.5" width="7" height="7" rx="1.5" />
+      <rect x="13.5" y="3.5" width="7" height="7" rx="1.5" />
+      <rect x="3.5" y="13.5" width="7" height="7" rx="1.5" />
+      <rect x="13.5" y="13.5" width="7" height="7" rx="1.5" />
+    </svg>
+  );
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const jsonLd = {
@@ -50,19 +61,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <header className="brand-bar">
-          <a className="brand" href="/">
-            <span className="brand-mark">F</span>
-            <span>
-              <span className="brand-name">FixMessy</span>
-              <div className="brand-tag">Space management solution</div>
-            </span>
+          <a className="brand" href="/" aria-label="Fix Messy home">
+            <img className="brand-mark" src="/logo-mark.svg" alt="" />
+            <span className="brand-name">Fix Messy</span>
           </a>
-          <nav className="nav-links">
-            <a href="/gallery">Photo Gallery</a>
+          <nav className="nav-icons">
+            <a className="nav-icon" href="/gallery" aria-label="Photo gallery">
+              <GridIcon />
+            </a>
           </nav>
         </header>
         {children}
-        <footer className="site">FixMessy — Space management solution · {new Date().getFullYear()}</footer>
+        <footer className="site">
+          <div className="fbrand">Fix Messy</div>
+          <div>Space management solution · {new Date().getFullYear()}</div>
+        </footer>
       </body>
     </html>
   );
