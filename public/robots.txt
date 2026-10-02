@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /addy
+Disallow: /api/
+
+Sitemap: https://fixmessy.onrender.com/sitemap.xml
