@@ -247,6 +247,18 @@ export default function HomePage() {
         </div>
       )}
 
+      <div className="card how-card">
+        <h3>How it works</h3>
+        <p>
+          Add a photo of your desktop, table, desk, car interior, room, or any
+          messy space — and let Fix Messy reorganize it to suit your taste.
+        </p>
+        <p style={{ marginTop: 10 }}>
+          Snap the mess, get a tidied-up version, a step-by-step guide, and the
+          organizers to buy — or a fresh decor style instead.
+        </p>
+      </div>
+
       <input ref={libraryRef} type="file" accept="image/*" hidden onChange={(e) => handleFile(e.target.files?.[0])} />
       <input ref={cameraRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => handleFile(e.target.files?.[0])} />
       <input ref={fileRef} type="file" accept="image/*" hidden onChange={(e) => handleFile(e.target.files?.[0])} />

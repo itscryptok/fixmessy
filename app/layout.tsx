@@ -4,7 +4,7 @@ import "./globals.css";
 const SITE_NAME = "Fix Messy";
 const TAGLINE = "Space management solution";
 const DESCRIPTION =
-  "Fix Messy — space management solution. Easily transform your room or any messy space into a more organized one. Upload a photo and get an AI-reorganized image, a practical step-by-step guide, and the organizers to buy.";
+  "Fix Messy — space management solution. Easily transform your room or any messy space into a more organized one. Add a photo of your desktop, table, desk, car interior, room, or any messy space and get an AI-reorganized image, a step-by-step guide, and the organizers to buy.";
 
 export const metadata: Metadata = {
   title: `${SITE_NAME} — ${TAGLINE}`,
